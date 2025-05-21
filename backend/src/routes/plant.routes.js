@@ -5,8 +5,7 @@ import {
   getAllPlants,
   getPlantById,
   getPlantsByUserEmail,
-  updatePlant,
-  uploadImage
+  updatePlant
 } from '../controllers/plant.controller.js';
 
 const router = express.Router();
@@ -18,8 +17,6 @@ router.get('/:id', getPlantById);
 router.get('/user/:email', getPlantsByUserEmail);
 
 router.post('/', createPlant);
-
-router.post('/upload-image', uploadImage);
 
 router.put('/:id', updatePlant);
 
