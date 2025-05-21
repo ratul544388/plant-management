@@ -29,7 +29,7 @@ app.use("/api/plants", plantRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   mongoose
-    .connect(process.env.MONGODB_CONNECTION_STRING)
+    .connect("mongodb+srv://ratul:ratul@cluster0.pa8rk5r.mongodb.net/programming-hero-assignment-10")
     .then(() => {
       console.log("✅✅✅Conncted to MongoDB");
     })
