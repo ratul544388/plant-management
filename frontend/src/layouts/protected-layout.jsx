@@ -1,0 +1,22 @@
+import PageLoader from "@/components/loaders/page-loader";
+import useAuthStore from "@/hooks/use-auth-store";
+import React from "react";
+import { Navigate, Outlet, useLocation } from "react-router";
+
+const ProtectedLayout = () => {
+  const { pathname } = useLocation();
+  const { currentUser, loading } = useAuthStore();
+
+  if (loading) {
+    return <PageLoader />;
+  }
+
+  if (!currentUser && !loading) {
+    const href = `/auth/login?redirect_url=${pathname}`
+    return <Navigate to={href} />;
+  }
+
+  return <Outlet />;
+};
+
+export default ProtectedLayout;
