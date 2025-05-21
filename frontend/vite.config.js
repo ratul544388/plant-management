@@ -7,7 +7,7 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
   server: {
     proxy: {
-      "/api": import.meta.VITE_API_URL
+      "/api": "https://plant-management-backend-fswh.onrender.com"
     },
   },
   plugins: [react(), tailwindcss()],
