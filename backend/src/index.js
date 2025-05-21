@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://plant-management-backend-fswh.onrender.com",
+    origin: "https://plant-management-nine.vercel.app",
     credentials: true,
   })
 );
