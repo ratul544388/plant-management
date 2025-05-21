@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
-import plantRoutes from './routes/plant.routes.js'
+import plantRoutes from "./routes/plant.routes.js";
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
@@ -18,7 +18,13 @@ app.use(
 
 app.use(express.json());
 
-app.use('/api/plants', plantRoutes);
+app.get("/", (req, res) => {
+  res.send({
+    message: "Server is running",
+  });
+});
+
+app.use("/api/plants", plantRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
