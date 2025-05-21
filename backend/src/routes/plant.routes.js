@@ -10,6 +10,10 @@ import {
 
 const router = express.Router();
 
+router.get("/test", (req, res) => {
+  res.json({ message: "Still working" });
+});
+
 router.get("/", getAllPlants);
 
 router.get("/:id", getPlantById);
@@ -22,8 +26,5 @@ router.put("/:id", updatePlant);
 
 router.delete("/:id", deletePlant);
 
-router.get("/test", (req, res) => {
-  res.json({ message: "Still working" });
-});
 
 export default router;
