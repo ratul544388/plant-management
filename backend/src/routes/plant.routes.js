@@ -7,7 +7,6 @@ import {
   getPlantsByUserEmail,
   updatePlant,
 } from "../controllers/plant.controller.js";
-import Plant from "../models/plant.model.js";
 
 const router = express.Router();
 

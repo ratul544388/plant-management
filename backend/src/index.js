@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: process.env.VITE_APP_URL,
+    origin: "https://plant-management-backend-fswh.onrender.com",
     credentials: true,
   })
 );
@@ -29,7 +29,7 @@ app.use("/api/plants", plantRoutes);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   mongoose
-    .connect("mongodb+srv://ratul:ratul@cluster0.pa8rk5r.mongodb.net/programming-hero-assignment-10")
+    .connect(process.env.MONGODB_CONNECTION_STRING)
     .then(() => {
       console.log("✅✅✅Conncted to MongoDB");
     })
