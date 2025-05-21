@@ -7,12 +7,28 @@ import {
   getPlantsByUserEmail,
   updatePlant,
 } from "../controllers/plant.controller.js";
+import Plant from "../models/plant.model.js";
 
 const router = express.Router();
 
-router.get("/test", (req, res) => {
-  res.json({ message: "Still working" });
+router.get("/test-db", async (req, res) => {
+  try {
+    const onePlant = await Plant.findOne(); // Try to query something simple
+    res.status(200).json({
+      success: true,
+      message: "MongoDB is connected and working!",
+      data: onePlant,
+    });
+  } catch (error) {
+    console.error("MongoDB Test Error:", error);
+    res.status(500).json({
+      success: false,
+      message: "MongoDB connection failed",
+      error: error.message,
+    });
+  }
 });
+
 
 router.get("/", getAllPlants);
 
