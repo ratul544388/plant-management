@@ -35,7 +35,7 @@ const OAuthLogin = () => {
         </Button>
       </div>
       <div className="bg-border mt-5 mb-2 flex h-[1px] w-full items-center justify-center rounded-full">
-        <span className="bg-background mb-1 px-2">or</span>
+        <span className="bg-secondary mb-1 px-2">or</span>
       </div>
     </div>
   );

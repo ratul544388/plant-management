@@ -35,6 +35,7 @@ const Header = () => {
           </div>
         ) : (
           <div className="flex gap-3">
+            <ThemeToggler className="hidden sm:flex" />
             <Link to="/auth/login" className={buttonVariants()}>
               Login
             </Link>

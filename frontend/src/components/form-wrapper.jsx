@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 
 const FormWrapper = ({ form, title, description, onSubmit, children, className }) => {
   return (
-    <Card className={cn(className)}>
+    <Card className={cn('bg-background', className)}>
       <CardHeader className={cn(!title && "hidden")}>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
