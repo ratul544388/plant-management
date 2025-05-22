@@ -18,7 +18,7 @@ const EditPlant = () => {
     return <PageLoader/>
   }
 
-  if (!plant.data) {
+  if (!plant?.data) {
     return <NotFound />;
   }
 

@@ -16,7 +16,7 @@ const PlantDetails = () => {
 
   if (isPending) return <PageLoader />;
 
-  if (!plant.data) {
+  if (!plant?.data) {
     return <NotFound />;
   }
 
