@@ -4,6 +4,7 @@ import PlantForm from "@/components/plant-form";
 import { request } from "@/lib/request";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router";
+import NotFound from "../public/not-found";
 
 const EditPlant = () => {
   const { slug } = useParams();
@@ -15,6 +16,10 @@ const EditPlant = () => {
 
   if (isPending) {
     return <PageLoader/>
+  }
+
+  if (!plant) {
+    return <NotFound />;
   }
 
   return <>

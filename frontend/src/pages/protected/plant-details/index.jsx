@@ -1,6 +1,7 @@
 import PageLoader from "@/components/page-loader";
 import PageTitle from "@/components/page-title";
 import { request } from "@/lib/request";
+import NotFound from "@/pages/public/not-found";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useParams } from "react-router";
@@ -14,6 +15,10 @@ const PlantDetails = () => {
   });
 
   if (isPending) return <PageLoader />;
+
+  if (!plant) {
+    return <NotFound />;
+  }
 
   const {
     image,
@@ -30,7 +35,7 @@ const PlantDetails = () => {
   } = plant.data;
 
   return (
-    <div className="bg-background max-w-3xl mx-auto overflow-hidden rounded-lg pb-6 shadow-md">
+    <div className="bg-background mx-auto max-w-3xl overflow-hidden rounded-lg pb-6 shadow-md">
       <PageTitle>{name}</PageTitle>
       <img
         src={image}
