@@ -1,4 +1,4 @@
-import PageLoader from "@/components/loaders/page-loader";
+import PageLoader from "@/components/page-loader";
 import useAuthStore from "@/hooks/use-auth-store";
 import React from "react";
 import { Navigate, Outlet } from "react-router";

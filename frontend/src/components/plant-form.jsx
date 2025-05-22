@@ -1,3 +1,4 @@
+import { wateringFrequency } from "@/constants";
 import { CareLevels, HealthStatuses, PlantCategories } from "@/constants/enums";
 import useAuthStore from "@/hooks/use-auth-store";
 import { request } from "@/lib/request";
@@ -5,31 +6,29 @@ import { generateSlug } from "@/lib/utils";
 import { plantSchema } from "@/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import FormWrapper from "./form-wrapper";
-import FormInput from "./form-input";
-import FormSelect from "./form-select";
 import FormDatePicker from "./form-date-picker";
-import FormError from "./form-error";
+import FormInput from "./form-input";
+import FormRichTextEditor from "./form-rich-text-editor";
+import FormSelect from "./form-select";
+import FormWrapper from "./form-wrapper";
 import LoadingButton from "./loading-button";
-import { wateringFrequency } from "@/constants";
 
 const PlantForm = ({ plant }) => {
   const isFirstRender = useRef(true);
   const queryClient = useQueryClient();
   const { currentUser } = useAuthStore();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
 
   const isEditMode = Boolean(plant && plant._id);
 
   const form = useForm({
     resolver: zodResolver(plantSchema),
     defaultValues: {
-      image: plant?.image || "https://test.png",
+      image: plant?.image || "",
       name: plant?.name || "",
       slug: plant?.slug || "",
       category: plant?.category || undefined,
@@ -53,7 +52,7 @@ const PlantForm = ({ plant }) => {
       if (isEditMode) {
         return request({
           method: "put",
-          url: `/api/plants/${plant._id}`,
+          url: `/api/plants/${plant.slug}?plantId=${plant._id}`,
           data,
         });
       } else {
@@ -65,12 +64,22 @@ const PlantForm = ({ plant }) => {
       }
     },
     onSuccess: (data) => {
+      console.log(data);
       toast.success(data.message);
       queryClient.invalidateQueries(["plants"]);
       navigate("/plants/my-plants");
     },
     onError: (error) => {
-      setError(error.message);
+      const { message, field } = error.response.data;
+      if (field) {
+        form.setError("slug", { message });
+        form.setFocus("slug");
+        const slugInput = document.querySelector('input[name="slug"]');
+        slugInput.scrollIntoView({ behavior: "smooth", block: "center" });
+        setTimeout(() => {
+          slugInput.focus();
+        }, 2000);
+      }
     },
   });
 
@@ -120,12 +129,6 @@ const PlantForm = ({ plant }) => {
         options={PlantCategories}
         disabled={isPending}
       />
-      <FormInput
-        control={form.control}
-        name="description"
-        placeholder="Enter description"
-        disabled={isPending}
-      />
       <FormSelect
         control={form.control}
         name="careLevel"
@@ -164,7 +167,12 @@ const PlantForm = ({ plant }) => {
         options={HealthStatuses}
         disabled={isPending}
       />
-      <FormError error={error} />
+      <FormRichTextEditor
+        control={form.control}
+        name="description"
+        placeholder="Write a description"
+        disabled={isPending}
+      />
       <LoadingButton isLoading={isPending}>
         {isEditMode ? "Update Plant" : "Create Plant"}
       </LoadingButton>

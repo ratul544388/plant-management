@@ -11,11 +11,13 @@ import { Button, buttonVariants } from "../ui/button";
 import { Menu } from "lucide-react";
 import useAuthStore from "@/hooks/use-auth-store";
 import { navLinks } from "@/constants";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { cn } from "@/lib/utils";
 import Logo from "./logo";
+import { ThemeToggler } from "../theme-toggler";
 
 const MobileMenu = () => {
+  const { pathname } = useLocation();
   const { currentUser } = useAuthStore();
   const [open, setOpen] = useState(false);
   return (
@@ -42,6 +44,7 @@ const MobileMenu = () => {
                   className={cn(
                     buttonVariants({ variant: "ghost", size: "lg" }),
                     "w-full justify-start rounded-none !px-6",
+                    href === pathname && "bg-accent",
                   )}
                 >
                   <Icon className="size-5" />
@@ -51,6 +54,7 @@ const MobileMenu = () => {
             );
           })}
         </ul>
+        <ThemeToggler className="ml-6 mt-auto" showLabel/>
       </SheetContent>
     </Sheet>
   );

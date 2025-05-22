@@ -1,54 +1,45 @@
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
 import { toast } from "sonner";
 
-import FormWrapper from "@/components/form-wrapper";
+import { auth } from "@/firebase";
+import { cn } from "@/lib/utils";
+import { loginSchema } from "@/validations";
+
+import FormInput from "@/components/form-input";
 import FormPasswordInput from "@/components/form-password-input";
-import FormError from "@/components/form-error";
+import FormWrapper from "@/components/form-wrapper";
 import LoadingButton from "@/components/loading-button";
+import OAuthLogin from "./_components/o-auth-login";
 
-const formSchema = z
-  .object({
-    currentPassword: z.string().min(6, {
-      message: "Current password must be at least 6 characters",
-    }),
-    newPassword: z.string().min(6, {
-      message: "New password must be at least 6 characters",
-    }),
-    confirmNewPassword: z.string().min(6, {
-      message: "Please confirm your new password",
-    }),
-  })
-  .refine((data) => data.newPassword === data.confirmNewPassword, {
-    message: "Passwords do not match",
-    path: ["confirmNewPassword"],
-  });
-
-const ChangePasswordForm = () => {
-  const [error, setError] = useState("");
+const Login = () => {
+  const navigate = useNavigate();
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
-      currentPassword: "",
-      newPassword: "",
-      confirmNewPassword: "",
+      email: "",
+      password: "",
     },
   });
 
-  const { mutateAsync, isPending } = useMutation({
-    mutationFn: async () => {
-      toast.success("This feature will be added soon");
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: async (values) => {
+      const { email, password } = values;
+      await signInWithEmailAndPassword(auth, email, password);
     },
     onSuccess: () => {
-      toast.success("Password updated successfully");
-      form.reset();
+      toast.success("Login Successful");
+      navigate("/"); // Or redirect to the page user came from, if you handle that logic
     },
-    onError: (err) => {
-      setError(err?.message || "Something went wrong");
+    onError: (error) => {
+      if (error.message.includes("credential")) {
+        return toast.error("Invalid Credentials")
+      };
+      toast.error("Something went wrong");
     },
   });
 
@@ -56,31 +47,36 @@ const ChangePasswordForm = () => {
     <FormWrapper
       form={form}
       onSubmit={mutateAsync}
-      title="Change Password"
-      description="Update your password below"
+      title="Login to Your Account"
+      description="Enter your email and password to login"
     >
-      <FormPasswordInput
+      <OAuthLogin />
+      <FormInput
         control={form.control}
-        name="currentPassword"
-        placeholder="Enter current password"
+        name="email"
+        placeholder="Enter your email"
         disabled={isPending}
       />
       <FormPasswordInput
         control={form.control}
-        name="newPassword"
-        placeholder="Enter new password"
+        name="password"
+        placeholder="Enter your password"
         disabled={isPending}
       />
-      <FormPasswordInput
-        control={form.control}
-        name="confirmNewPassword"
-        placeholder="Confirm new password"
-        disabled={isPending}
-      />
-      <LoadingButton>Update Password</LoadingButton>
-      <FormError error={error} />
+      <LoadingButton isLoading={isPending}>Login</LoadingButton>
+      <div
+        className={cn(
+          "text-center",
+          isPending && "pointer-events-none opacity-60",
+        )}
+      >
+        Don't have an account?{" "}
+        <Link to="/auth/register" className="text-primary underline">
+          Register
+        </Link>
+      </div>
     </FormWrapper>
   );
 };
 
-export default ChangePasswordForm;
+export default Login;

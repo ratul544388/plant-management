@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 
 const PageTitle = ({ children }) => (
   <Helmet>
-    <title>{children} | Play Store Clone</title>
+    <title>{children} | PlantCare</title>
   </Helmet>
 );
 

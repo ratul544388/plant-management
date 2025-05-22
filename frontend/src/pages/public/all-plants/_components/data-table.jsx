@@ -26,11 +26,11 @@ export function DataTable({
   })
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border bg-background">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow className="hover:bg-accent/30" key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -50,6 +50,7 @@ export function DataTable({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
+                className="hover:bg-accent/20"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

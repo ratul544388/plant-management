@@ -1,4 +1,5 @@
 import { buttonVariants } from "@/components/ui/button";
+import { format } from "date-fns";
 import { Link } from "react-router";
 
 export const columns = [
@@ -22,8 +23,26 @@ export const columns = [
     header: "Category",
   },
   {
+    accessorKey: "careLevel",
+    header: "Care Level",
+  },
+  {
     accessorKey: "wateringFrequency",
     header: "Watering Frequency",
+  },
+  {
+    accessorKey: "healthStatus",
+    header: "Health Status",
+  },
+  {
+    accessorKey: "lastWateredDate",
+    header: "Last Watered Date",
+    cell: ({row}) => format(row.original.lastWateredDate, "d MMMM yyyy 'at' h:mmaa")
+  },
+  {
+    accessorKey: "nextWateringDate",
+    header: "Next Watering Date",
+    cell: ({row}) => format(row.original.nextWateringDate, "d MMMM yyyy 'at' h:mmaa")
   },
   {
     accessorKey: "action",

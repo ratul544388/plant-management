@@ -1,9 +1,9 @@
 import React from "react";
-import "./page-loading-spinner.css"
 const PageLoader = () => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/10">
+    <div className="h-main-height flex items-center justify-center">
       <span className="loader"/>
+      <span className="fixed inset-0 bg-black/10"/>
     </div>
   );
 };

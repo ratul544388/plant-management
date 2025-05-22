@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/plants/all",
+        path: "/plants",
         Component: AllPlants,
       },
       {
@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
             Component: AddPlant,
           },
           {
-            path: "/plants/:id/edit",
+            path: "/plants/:slug/edit",
             Component: EditPlant,
           },
           {
