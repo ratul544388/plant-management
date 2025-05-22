@@ -3,7 +3,15 @@ import { asyncHandler } from "../utils/async-handler.js";
 
 // CREATE a new plant
 export const createPlant = asyncHandler(async (req, res) => {
-  const { userName, userEmail } = req.body;
+  const { userName, userEmail, slug } = req.body;
+  const existingSlug = await Plant.findOne({ slug });
+
+  if (existingSlug) {
+    return res
+      .status(409)
+      .json({ message: "Slug Already exist", field: "slug" });
+  }
+
   const newPlant = await Plant.create({
     ...req.body,
     userName,
@@ -15,15 +23,24 @@ export const createPlant = asyncHandler(async (req, res) => {
   });
 });
 
-// GET all plants
-export const getAllPlants = asyncHandler(async (req, res) => {
-  const plants = await Plant.find();
+// Get all plants
+export const getPlants = asyncHandler(async (req, res) => {
+  const { careLevel } = req.query;
+  const limit = parseInt(req.query.limit) || 100;
+
+  let filter = {};
+  if (careLevel) {
+    filter.careLevel = { $regex: new RegExp(`^${careLevel}$`, "i") };
+  }
+
+  const plants = await Plant.find(filter).sort({ createdAt: -1 }).limit(limit);
   res.status(200).json({ success: true, data: plants });
 });
 
 // GET single plant by ID
-export const getPlantById = asyncHandler(async (req, res) => {
-  const plant = await Plant.findById(req.params.id);
+export const getPlantBySlug = asyncHandler(async (req, res) => {
+  const { slug } = req.params;
+  const plant = await Plant.findOne({ slug });
   if (!plant) {
     return res.status(404).json({ success: false, message: "Plant not found" });
   }
@@ -39,13 +56,28 @@ export const getPlantsByUserEmail = asyncHandler(async (req, res) => {
 
 // UPDATE plant by ID
 export const updatePlant = asyncHandler(async (req, res) => {
-  const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, req.body, {
+  const { slug } = req.body;
+  const { plantId } = req.query;
+
+  const existingSlug = await Plant.findOne({ slug, _id: { $ne: plantId } });
+
+  if (existingSlug) {
+    return res.status(400).json({
+      success: false,
+      message: "Slug already exists. Please choose a different one.",
+    });
+  }
+
+  const updatedPlant = await Plant.findByIdAndUpdate(plantId, req.body, {
     new: true,
     runValidators: true,
   });
 
   if (!updatedPlant) {
-    return res.status(404).json({ success: false, message: "Plant not found" });
+    return res.status(404).json({
+      success: false,
+      message: "Plant not found",
+    });
   }
 
   res.status(200).json({
@@ -57,7 +89,8 @@ export const updatePlant = asyncHandler(async (req, res) => {
 
 // DELETE plant by ID
 export const deletePlant = asyncHandler(async (req, res) => {
-  const deletedPlant = await Plant.findByIdAndDelete(req.params.id);
+  const { id } = req.params;
+  const deletedPlant = await Plant.findByIdAndDelete(id);
   if (!deletedPlant) {
     return res.status(404).json({ success: false, message: "Plant not found" });
   }

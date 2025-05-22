@@ -1,45 +1,25 @@
-import express from "express";
+import express from 'express';
 import {
   createPlant,
   deletePlant,
-  getAllPlants,
-  getPlantById,
+  getPlantBySlug,
+  getPlants,
   getPlantsByUserEmail,
-  updatePlant,
-} from "../controllers/plant.controller.js";
+  updatePlant
+} from '../controllers/plant.controller.js';
 
 const router = express.Router();
 
-router.get("/test-db", async (req, res) => {
-  try {
-    const onePlant = await Plant.findOne(); // Try to query something simple
-    res.status(200).json({
-      success: true,
-      message: "MongoDB is connected and working!",
-      data: onePlant,
-    });
-  } catch (error) {
-    console.error("MongoDB Test Error:", error);
-    res.status(500).json({
-      success: false,
-      message: "MongoDB connection failed",
-      error: error.message,
-    });
-  }
-});
+router.get('/', getPlants);
 
+router.get('/:slug', getPlantBySlug);
 
-router.get("/", getAllPlants);
+router.get('/user/:email', getPlantsByUserEmail);
 
-router.get("/:id", getPlantById);
+router.post('/', createPlant);
 
-router.get("/user/:email", getPlantsByUserEmail);
+router.put('/:id', updatePlant);
 
-router.post("/", createPlant);
-
-router.put("/:id", updatePlant);
-
-router.delete("/:id", deletePlant);
-
+router.delete('/:id', deletePlant);
 
 export default router;
