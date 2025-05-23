@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { FormControl, FormField, FormItem, FormLabel } from "./ui/form";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { buttonVariants } from "./ui/button";
@@ -25,6 +25,7 @@ const FormPasswordInput = ({ control, label, placeholder, name, disabled }) => {
                 className="pr-9"
               />
             </FormControl>
+            <FormMessage />
             <div
               onClick={() => setShowPassword(!showPassword)}
               className={cn(

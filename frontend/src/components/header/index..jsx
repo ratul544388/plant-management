@@ -10,7 +10,7 @@ import MobileMenu from "./mobile-menu";
 import { ThemeToggler } from "../theme-toggler";
 
 const Header = () => {
-  const { currentUser } = useAuthStore();
+  const { currentUser, loading } = useAuthStore();
   const { pathname } = useLocation();
   return (
     <header className="bg-background h-header-height sticky top-0 z-50 border-b">
@@ -22,27 +22,36 @@ const Header = () => {
             <NavLinks />
           </div>
         </div>
-        {currentUser ? (
-          <div className="flex items-center gap-3">
-            {pathname !== "/plants/new" && (
-              <Link to="/plants/new" className={buttonVariants()}>
-                <PlusCircle className="size-4" />
-                Add Plant
-              </Link>
+        {!loading && (
+          <>
+            {currentUser ? (
+              <div className="flex items-center gap-3">
+                {pathname !== "/plants/new" && (
+                  <Link to="/plants/new" className={buttonVariants()}>
+                    <PlusCircle className="size-4" />
+                    Add Plant
+                  </Link>
+                )}
+                <ThemeToggler className="hidden sm:flex" />
+                <UserButton />
+              </div>
+            ) : (
+              <div className="flex gap-3">
+                <Link to="/auth/login" className={buttonVariants()}>
+                  Login
+                </Link>
+                <Link
+                  to="/auth/register"
+                  className={buttonVariants({
+                    variant: "outline",
+                    className: "border-primary border-2",
+                  })}
+                >
+                  Register
+                </Link>
+              </div>
             )}
-            <ThemeToggler className="hidden sm:flex" />
-            <UserButton />
-          </div>
-        ) : (
-          <div className="flex gap-3">
-            <ThemeToggler className="hidden sm:flex" />
-            <Link to="/auth/login" className={buttonVariants()}>
-              Login
-            </Link>
-            <Link to="/auth/register" className={buttonVariants({variant: "outline", className: "border-primary border-2"})}>
-              Register
-            </Link>
-          </div>
+          </>
         )}
       </Container>
     </header>
