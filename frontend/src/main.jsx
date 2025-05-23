@@ -10,7 +10,7 @@ import { ThemeProvider } from "./providers/theme-provider";
 createRoot(document.getElementById("root")).render(
   <ReactQueryProvider>
     <HelmetProvider>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
         <RouterProvider router={router} />
       </ThemeProvider>
     </HelmetProvider>
