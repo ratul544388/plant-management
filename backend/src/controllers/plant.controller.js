@@ -1,3 +1,4 @@
+import { HealthStatuses } from "../constants/enum.js";
 import Plant from "../models/plant.model.js";
 import { asyncHandler } from "../utils/async-handler.js";
 
@@ -25,17 +26,27 @@ export const createPlant = asyncHandler(async (req, res) => {
 
 // Get all plants
 export const getPlants = asyncHandler(async (req, res) => {
-  const { careLevel } = req.query;
+  const { q } = req.query;
   const limit = parseInt(req.query.limit) || 100;
 
   let filter = {};
-  if (careLevel) {
-    filter.careLevel = { $regex: new RegExp(`^${careLevel}$`, "i") };
+  if (q) {
+    const regex = new RegExp(q, "i");
+    filter = {
+      $or: [
+        { name: { $regex: regex } },
+        { category: { $regex: regex } }
+      ]
+    };
   }
 
-  const plants = await Plant.find(filter).sort({ createdAt: -1 }).limit(limit);
+  const plants = await Plant.find(filter)
+    .sort({ createdAt: -1 })
+    .limit(limit);
+
   res.status(200).json({ success: true, data: plants });
 });
+
 
 // GET single plant by ID
 export const getPlantBySlug = asyncHandler(async (req, res) => {
@@ -97,4 +108,36 @@ export const deletePlant = asyncHandler(async (req, res) => {
   res
     .status(200)
     .json({ success: true, message: "Plant deleted successfully" });
+});
+
+
+// GET DASHBOARD DATA;
+export const getDashboardStats = asyncHandler(async (req, res) => {
+  // Total plant count
+  const totalPlants = await Plant.countDocuments();
+
+  // Count grouped by healthStatus
+  const healthStats = await Plant.aggregate([
+    {
+      $group: {
+        _id: "$healthStatus",
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+
+  const healthStatusCounts = {};
+
+  HealthStatuses.forEach(status => {
+    const match = healthStats.find(item => item._id === status);
+    healthStatusCounts[status] = match ? match.count : 0;
+  });
+
+  res.status(200).json({
+    success: true,
+    data: {
+      totalPlants,
+      healthStatusCounts
+    }
+  });
 });

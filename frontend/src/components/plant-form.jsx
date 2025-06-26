@@ -102,7 +102,7 @@ const PlantForm = ({ plant }) => {
       description={
         isEditMode ? "Edit the plant details" : "Fill in the plant details"
       }
-      className="mx-auto mt-14 max-w-[500px]"
+      className="mx-auto max-w-[600px]"
     >
       <FormInput
         disabled={isPending}

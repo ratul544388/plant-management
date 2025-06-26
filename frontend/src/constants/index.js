@@ -1,6 +1,13 @@
-import { Home, Leaf, ListTree, User, UserPlus } from "lucide-react";
+import {
+  Home,
+  Leaf,
+  LayoutDashboard,
+  PlusCircle,
+  ShoppingBag,
+  Bell,
+} from "lucide-react";
 
-export const navLinks = (currentUser) => [
+export const navLinks = [
   {
     label: "Home",
     href: "/",
@@ -11,15 +18,6 @@ export const navLinks = (currentUser) => [
     href: "/plants",
     icon: Leaf,
   },
-  ...(currentUser
-    ? [
-        {
-          label: "My Plants",
-          href: "/plants/my-plants",
-          icon: ListTree,
-        },
-      ]
-    : []),
 ];
 
 export const placeholderUserImage = "/images/placeholder-user.webp";
@@ -67,5 +65,70 @@ export const sliderData = [
     title: "Secure & Personalized Experience",
     description:
       "Register securely, manage your personal plant list, and enjoy a private, responsive platform optimized for mobile and desktop.",
+  },
+];
+
+export const topHeaderAnimatedTexts = [
+  "Free Shipping On All Orders",
+  "Free Personalized Gift Notes",
+  "90-Days Plants Guarantee",
+];
+
+export const communityData = [
+  {
+    username: "@luna_dev",
+    image: "/images/community/1.webp",
+  },
+  {
+    username: "@pixel_john",
+    image: "/images/community/2.webp",
+  },
+  {
+    username: "@codey_kim",
+    image: "/images/community/3.webp",
+  },
+  {
+    username: "@design_ash",
+    image: "/images/community/4.webp",
+  },
+  {
+    username: "@react_rio",
+    image: "/images/community/5.webp",
+  },
+  {
+    username: "@vue_vita",
+    image: "/images/community/6.webp",
+  },
+  {
+    username: "@next_niko",
+    image: "/images/community/7.webp",
+  },
+];
+
+export const dashboardNavLinks = [
+  {
+    label: "Dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    label: "My Plants",
+    href: "/dashboard/my-plants",
+    icon: Leaf,
+  },
+  {
+    label: "Add Plant",
+    href: "/dashboard/plants/new",
+    icon: PlusCircle,
+  },
+  {
+    label: "My Orders",
+    href: "/dashboard/my-orders",
+    icon: ShoppingBag,
+  },
+  {
+    label: "Notifications",
+    href: "/dashboard/notifications",
+    icon: Bell,
   },
 ];

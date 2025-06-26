@@ -25,7 +25,7 @@ const FormPasswordInput = ({ control, label, placeholder, name, disabled }) => {
                 className="pr-9"
               />
             </FormControl>
-            <FormMessage />
+            <FormMessage/>
             <div
               onClick={() => setShowPassword(!showPassword)}
               className={cn(

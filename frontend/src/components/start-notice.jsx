@@ -32,7 +32,10 @@ const StartNotice = () => {
         <DialogHeader className="text-start">
           <DialogTitle>Notice About Initial Delay</DialogTitle>
           <DialogDescription>
-            This app is hosted on the free tier of Render. Because of this, the backend may take up to <strong className="text-red-500">50 seconds</strong> to respond to the first request after being inactive. Thank you for your patience!
+            This app is hosted on the free tier of Render. Because of this, the
+            backend may take up to{" "}
+            <strong className="text-red-500">50 seconds</strong> to respond to
+            the first request after being inactive. Thank you for your patience!
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-end">

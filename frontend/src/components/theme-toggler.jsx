@@ -18,7 +18,7 @@ export function ThemeToggler({ className, showLabel }) {
       <DropdownMenuTrigger asChild>
         <Button
           className={cn(showLabel && "w-fit" ,className)}
-          variant="outline"
+          variant="ghost"
           size={showLabel ? "default" : "icon"}
         >
           <Sun className="size-4 hidden dark:block" />

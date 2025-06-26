@@ -1,25 +1,28 @@
-import express from 'express';
+import express from "express";
 import {
   createPlant,
   deletePlant,
+  getDashboardStats,
   getPlantBySlug,
   getPlants,
   getPlantsByUserEmail,
-  updatePlant
-} from '../controllers/plant.controller.js';
+  updatePlant,
+} from "../controllers/plant.controller.js";
 
 const router = express.Router();
 
-router.get('/', getPlants);
+router.get("/", getPlants);
 
-router.get('/:slug', getPlantBySlug);
+router.get("/dashboard-stats", getDashboardStats);
 
-router.get('/user/:email', getPlantsByUserEmail);
+router.get("/:slug", getPlantBySlug);
 
-router.post('/', createPlant);
+router.get("/user/:email", getPlantsByUserEmail);
 
-router.put('/:id', updatePlant);
+router.post("/", createPlant);
 
-router.delete('/:id', deletePlant);
+router.put("/:id", updatePlant);
+
+router.delete("/:id", deletePlant);
 
 export default router;

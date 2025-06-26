@@ -1,16 +1,19 @@
-import Layout from "@/layouts";
-import AuthLayout from "@/layouts/auth-layout";
-import ProtectedLayout from "@/layouts/protected-layout";
-import Login from "@/pages/auth/login";
-import Register from "@/pages/auth/register";
-import AddPlant from "@/pages/protected/add-plant";
-import EditPlant from "@/pages/protected/edit-plant";
-import MyPlants from "@/pages/protected/my-plants";
-import PlantDetails from "@/pages/protected/plant-details";
-import Profile from "@/pages/protected/profile";
-import AllPlants from "@/pages/public/all-plants";
-import Home from "@/pages/public/home";
-import NotFound from "@/pages/public/not-found";
+import AuthLayout from "@/app/auth/layout";
+import Login from "@/app/auth/pages/login";
+import Register from "@/app/auth/pages/register";
+import Layout from "@/app/layout";
+import NotFound from "@/app/not-found";
+import ProtectedLayout from "@/app/protected/layout";
+import AddPlant from "@/app/protected/pages/add-plant";
+import Dashboard from "@/app/protected/pages/dashboard";
+import DashboardLayout from "@/app/protected/pages/dashboard/layout";
+import EditPlant from "@/app/protected/pages/edit-plant";
+import MyPlants from "@/app/protected/pages/my-plants";
+import PlantDetails from "@/app/protected/pages/plant-details";
+import Profile from "@/app/protected/pages/profile";
+import AllPlants from "@/app/public/pages/all-plants";
+import Home from "@/app/public/pages/home";
+import FeatureAddedSoon from "@/components/feature-added-soon";
 import { createBrowserRouter } from "react-router";
 
 export const router = createBrowserRouter([
@@ -29,16 +32,37 @@ export const router = createBrowserRouter([
         Component: ProtectedLayout,
         children: [
           {
-            path: "/plants/my-plants",
-            Component: MyPlants,
-          },
-          {
-            path: "/plants/new",
-            Component: AddPlant,
-          },
-          {
-            path: "/plants/:slug/edit",
-            Component: EditPlant,
+            Component: DashboardLayout,
+            children: [
+              {
+                path: "/dashboard",
+                Component: Dashboard,
+              },
+              {
+                path: "/dashboard/my-plants",
+                Component: MyPlants,
+              },
+              {
+                path: "/dashboard/plants/new",
+                Component: AddPlant,
+              },
+              {
+                path: "/dashboard/plants/:slug/edit",
+                Component: EditPlant,
+              },
+              {
+                path: "/dashboard/my-orders",
+                element: (
+                  <FeatureAddedSoon title="This Page will be added soon" />
+                ),
+              },
+              {
+                path: "/dashboard/notifications",
+                element: (
+                  <FeatureAddedSoon title="This Page will be added soon" />
+                ),
+              },
+            ],
           },
           {
             path: "/plants/:slug",
