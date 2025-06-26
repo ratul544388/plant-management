@@ -25,7 +25,7 @@ const HowItWorks = () => {
               <img
                 src={`/images/how-it-works/${i + 1}.webp`}
                 alt="plant image"
-                className="mt-4 w-full rounded-xl"
+                className="mt-4 w-full bg-accent rounded-xl"
               />
             </WhileInView>
           ))}

@@ -46,7 +46,7 @@ const CommunityCarousel = () => {
               <img
                 src={image}
                 alt="Image"
-                className="aspect-square w-full object-cover"
+                className="aspect-square bg-accent w-full object-cover"
               />
               <p className="text-muted-foreground mt-3 ml-3">@testUsername</p>
             </div>
