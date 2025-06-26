@@ -42,12 +42,12 @@ const Dashboard = () => {
         {cards.map((card, idx) => (
           <li
             key={idx}
-            className="rounded-lg border border-gray-200 bg-white p-6 text-center shadow-md"
+            className="rounded-lg border bg-background p-6 text-center shadow-md"
           >
-            <h2 className="text-lg font-semibold text-gray-600">
+            <h2 className="text-lg font-semibold">
               {card.label}
             </h2>
-            <p className="mt-2 text-3xl font-bold text-green-700">
+            <p className="mt-2 text-3xl font-bold text-primary">
               {card.value}
             </p>
           </li>
